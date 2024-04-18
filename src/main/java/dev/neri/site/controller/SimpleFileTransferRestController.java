@@ -51,4 +51,21 @@ public class SimpleFileTransferRestController {
             throw new RuntimeException("Could not return the document.");
         }
     }
+
+    @GetMapping(
+            value = "/archive"
+    )
+    public void getArchive(HttpServletResponse response) {
+        response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "attachment; filename=archive.zip");
+        String fullFileName = "/static/archive.zip";
+        try (InputStream in = getClass().getResourceAsStream(fullFileName)) {
+            if(in == null) throw new IOException("Could not find the resource with name " + fullFileName);
+
+            IOUtils.copy(in, response.getOutputStream());
+            response.flushBuffer();
+        } catch(IOException e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

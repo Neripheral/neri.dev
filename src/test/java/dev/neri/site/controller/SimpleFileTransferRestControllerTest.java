@@ -7,6 +7,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Objects;
+
 import static com.google.common.truth.Truth.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -44,5 +46,11 @@ class SimpleFileTransferRestControllerTest {
     public void getSimpleDocumentReturnsAnPdfMIMEType() {
         ResponseEntity<byte[]> response = restTemplate.getForEntity(urlOf("/document"), byte[].class);
         assertThat(response.getHeaders().getContentType()).isEqualTo("application/pdf");
+    }
+
+    @Test
+    public void getSimpleArchiveReturnsZipMIMEType() {
+        ResponseEntity<byte[]> response = restTemplate.getForEntity(urlOf("/archive"), byte[].class);
+        assertThat(Objects.requireNonNull(response.getHeaders().getContentType()).toString()).isEqualTo("application/zip");
     }
 }
