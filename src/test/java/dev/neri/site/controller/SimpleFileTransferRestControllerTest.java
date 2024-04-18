@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -15,6 +16,10 @@ class SimpleFileTransferRestControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    private String urlOf(String path){
+        return "http://localhost:" + port + "/simplefile" + path;
+    }
 
     @Test
     void contextLoads(){
@@ -27,5 +32,11 @@ class SimpleFileTransferRestControllerTest {
         assertThat(
                 restTemplate.getForObject("http://localhost:" + port + "/simplefile/ping", String.class))
                 .contains("Pong");
+    }
+
+    @Test
+    public void getSimpleImageReturnsAnImageMIMEType() {
+        ResponseEntity<byte[]> response = restTemplate.getForEntity(urlOf("/image"), byte[].class);
+        assertThat(response.getHeaders().getContentType()).isEqualTo("image/jpeg");
     }
 }
