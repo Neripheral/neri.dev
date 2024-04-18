@@ -35,4 +35,20 @@ public class SimpleFileTransferRestController {
             throw new RuntimeException("Could not return the image.");
         }
     }
+
+    @GetMapping(
+            value = "/document"
+    )
+    public void getDocument(HttpServletResponse response) {
+        response.setHeader("Content-Type", MediaType.APPLICATION_PDF_VALUE);
+        String fullFileName = "/static/document.pdf";
+        try (InputStream in = getClass().getResourceAsStream(fullFileName)) {
+            if(in == null) throw new IOException("Could not find the resource with name " + fullFileName);
+
+            IOUtils.copy(in, response.getOutputStream());
+            response.flushBuffer();
+        } catch(IOException e){
+            throw new RuntimeException("Could not return the document.");
+        }
+    }
 }

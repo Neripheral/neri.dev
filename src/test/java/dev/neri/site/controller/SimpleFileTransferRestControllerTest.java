@@ -39,4 +39,10 @@ class SimpleFileTransferRestControllerTest {
         ResponseEntity<byte[]> response = restTemplate.getForEntity(urlOf("/image"), byte[].class);
         assertThat(response.getHeaders().getContentType()).isEqualTo("image/jpeg");
     }
+
+    @Test
+    public void getSimpleDocumentReturnsAnPdfMIMEType() {
+        ResponseEntity<byte[]> response = restTemplate.getForEntity(urlOf("/document"), byte[].class);
+        assertThat(response.getHeaders().getContentType()).isEqualTo("application/pdf");
+    }
 }
