@@ -36,9 +36,7 @@ public class SimpleFileTransferRestController {
         }
     }
 
-    @GetMapping(
-            value = "/document"
-    )
+    @GetMapping("/document")
     public void getDocument(HttpServletResponse response) {
         response.setHeader("Content-Type", MediaType.APPLICATION_PDF_VALUE);
         String fullFileName = "/static/document.pdf";
@@ -52,9 +50,7 @@ public class SimpleFileTransferRestController {
         }
     }
 
-    @GetMapping(
-            value = "/archive"
-    )
+    @GetMapping("/archive")
     public void getArchive(HttpServletResponse response) {
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=archive.zip");
