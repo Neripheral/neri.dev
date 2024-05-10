@@ -2,12 +2,10 @@ package dev.neri.site.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -54,6 +52,28 @@ public class SimpleFileTransferRestController {
     public void getArchive(HttpServletResponse response) {
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=archive.zip");
+        String fullFileName = "/static/archive.zip";
+        try (InputStream in = getClass().getResourceAsStream(fullFileName)) {
+            if(in == null) throw new IOException("Could not find the resource with name " + fullFileName);
+
+            IOUtils.copy(in, response.getOutputStream());
+            response.flushBuffer();
+        } catch(IOException e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/archive/{filename}")
+    public void getArchiveWithCustomName(@PathVariable("filename") String filename, HttpServletResponse response){
+        response.setContentType("application/zip");
+
+        ContentDisposition contentDisposition =
+                ContentDisposition
+                        .builder("attachment")
+                        .filename(filename + ".zip")
+                        .build();
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+
         String fullFileName = "/static/archive.zip";
         try (InputStream in = getClass().getResourceAsStream(fullFileName)) {
             if(in == null) throw new IOException("Could not find the resource with name " + fullFileName);
