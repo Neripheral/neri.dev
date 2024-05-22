@@ -22,7 +22,7 @@ public class DropletTest {
     }
 
     @Test
-    public void can_successfully_add_entry() {
+    public void can_add_entry() {
         Droplet newDroplet = new Droplet("correctFilename.ext");
         dropletRepository.save(newDroplet);
 
