@@ -12,15 +12,11 @@ public class Droplet {
     @Column(name="filename")
     private String filename;
 
-    @Column(name="coordinate")
-    private String coordinate;
-
     public Droplet() {
     }
 
-    public Droplet(String filename, String coordinate) {
+    public Droplet(String filename) {
         this.filename = filename;
-        this.coordinate = coordinate;
     }
 
     public int getId() {
@@ -39,20 +35,11 @@ public class Droplet {
         this.filename = filename;
     }
 
-    public String getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
-
     @Override
     public String toString() {
         return "Droplet{" +
                 "id=" + id +
                 ", filename='" + filename + '\'' +
-                ", coordinate='" + coordinate + '\'' +
                 '}';
     }
 }

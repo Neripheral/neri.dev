@@ -23,7 +23,7 @@ public class DropletTest {
 
     @Test
     public void can_successfully_add_entry() {
-        Droplet newDroplet = new Droplet("correctFilename.ext", "aaaa");
+        Droplet newDroplet = new Droplet("correctFilename.ext");
         dropletRepository.save(newDroplet);
 
         List<Droplet> retrievedDroplets = dropletRepository.findAll();
