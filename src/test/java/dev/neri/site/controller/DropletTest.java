@@ -29,4 +29,16 @@ public class DropletTest {
         List<Droplet> retrievedDroplets = dropletRepository.findAll();
         assertThat(retrievedDroplets.get(0).getFilename()).isEqualTo("correctFilename.ext");
     }
+
+    @Test
+    public void can_find_entry() {
+        Droplet correctDroplet = new Droplet("correctFilename.ext");
+        Droplet incorrectDroplet = new Droplet("incorrectFilename.ext");
+        correctDroplet = dropletRepository.save(correctDroplet);
+        dropletRepository.save(incorrectDroplet);
+
+        Droplet retrievedDroplet = dropletRepository.findById(correctDroplet.getId()).orElse(null);
+        assert retrievedDroplet != null;
+        assertThat(retrievedDroplet.getFilename()).isEqualTo("correctFilename.ext");
+    }
 }
