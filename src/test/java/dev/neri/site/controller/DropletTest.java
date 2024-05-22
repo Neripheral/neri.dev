@@ -20,4 +20,13 @@ public class DropletTest {
         List<Droplet> existingDroplets = dropletRepository.findAll();
         assertThat(existingDroplets).isEmpty();
     }
+
+    @Test
+    public void can_successfully_add_entry() {
+        Droplet newDroplet = new Droplet("correctFilename.ext", "aaaa");
+        dropletRepository.save(newDroplet);
+
+        List<Droplet> retrievedDroplets = dropletRepository.findAll();
+        assertThat(retrievedDroplets.get(0).getFilename()).isEqualTo("correctFilename.ext");
+    }
 }
