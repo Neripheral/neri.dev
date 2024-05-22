@@ -1,6 +1,5 @@
-package dev.neri.site.controller;
+package dev.neri.site.dao;
 
-import dev.neri.site.dao.DropletRepository;
 import dev.neri.site.entity.Droplet;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import java.util.List;
 import static com.google.common.truth.Truth.assertThat;
 
 @SpringBootTest
-public class DropletTest {
+public class DropletRepositoryTest {
     @Resource
     private DropletRepository dropletRepository;
 
