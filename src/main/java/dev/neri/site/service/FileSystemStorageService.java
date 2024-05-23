@@ -2,11 +2,14 @@ package dev.neri.site.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,8 +48,17 @@ public class FileSystemStorageService implements StorageService{
     }
 
     @Override
-    public Path load(String filename) {
-        return null;
+    public Resource load(int id) {
+        try{
+            Path requestedFilePath = this.rootLocation.resolve(String.valueOf(id));
+            Resource requestedFile = new UrlResource(requestedFilePath.toUri());
+            if(requestedFile.exists())
+                return requestedFile;
+            else
+                throw new StorageException(String.format("Could not read file with id %d", id));
+        } catch(MalformedURLException e){
+            throw new StorageException(String.format("Could not read file with id %d", id));
+        }
     }
 
     private static class StorageException extends RuntimeException {
