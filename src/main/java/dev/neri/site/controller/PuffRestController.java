@@ -4,9 +4,8 @@ import dev.neri.site.entity.Droplet;
 import dev.neri.site.service.DropletService;
 import dev.neri.site.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,5 +44,16 @@ public class PuffRestController {
                         HttpHeaders.LOCATION,
                         MvcUriComponentsBuilder.fromMethodCall(on(PuffRestController.class).getAll()).toUriString())
                 .body(newDroplet);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Resource> getFile(@PathVariable("id") Integer id){
+        Resource theFile = storageService.load(id);
+        String theFilename = dropletService.findById(id).getFilename();
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(theFilename).build().toString())
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(theFile);
     }
 }
