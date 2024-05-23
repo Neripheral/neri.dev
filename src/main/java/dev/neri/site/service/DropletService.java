@@ -20,6 +20,10 @@ public class DropletService {
         return repository.findAll();
     }
 
+    public Droplet findById(int id){
+        return repository.findById(id).orElse(null);
+    }
+
     public Droplet saveDroplet(Droplet newDroplet){
         return repository.save(newDroplet);
     }
