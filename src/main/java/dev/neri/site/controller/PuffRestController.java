@@ -16,7 +16,7 @@ import java.util.List;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 @RestController
-@RequestMapping("/puff/file")
+@RequestMapping("/puff/api")
 public class PuffRestController {
     @Autowired
     private DropletService dropletService;
