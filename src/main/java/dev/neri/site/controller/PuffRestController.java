@@ -17,6 +17,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 
 @RestController
 @RequestMapping("/puff/api")
+@CrossOrigin(origins="*")
 public class PuffRestController {
     @Autowired
     private DropletService dropletService;
