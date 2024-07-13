@@ -54,6 +54,7 @@ public class PuffRestController {
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(theFilename).build().toString())
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "*")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(theFile);
     }
